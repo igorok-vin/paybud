@@ -1,0 +1,41 @@
+#перед тим як запустити поставити активні настрокий
+#в application-dockerDBandDockerApplication2.properties
+#Настрокий легші для читання і простіші
+#З БД можна зробити теж саме що і в docker-stack.yml в папці stack
+#ВАЖЛИВО - Для докера контроллер має вертати не /home а home бо сторінку не видно
+version: "3.9"
+name: paymybuddyapp
+services:
+  db_paymybuddydockerapp:
+    container_name: dbpaymybuddy
+    #build:
+     # context: db_docker
+      #dockerfile: Dockerfile
+    image: mysql
+    ports:
+      - 3305:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=dbpaymybuddy
+    volumes:
+      - paymybuddySavedDataMySQL:/var/lib/mysql
+      #- D:/test2:/var/lib/mysql
+      - ./db_docker:/docker-entrypoint-initdb.d
+
+  paymybuddyapp:
+    container_name: paymybuddyapp
+    #build: ""
+    build:
+      dockerfile: Dockerfile
+    ports:
+      - "8086:8086"
+    depends_on:
+      - db_paymybuddydockerapp
+    environment:
+      SPRING_DATASOURCE_URL: 'jdbc:mysql://db_paymybuddydockerapp:3306/dbpaymybuddy?allowPublicKeyRetrieval=true&useSSL=false'
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: password
+    restart: always
+
+volumes:
+  paymybuddySavedDataMySQL:
