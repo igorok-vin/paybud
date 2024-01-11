@@ -16,9 +16,7 @@ services:
       
   paymybuddyapp:
     container_name: paymybuddyapp
-    image: paymybuddyapp
-    build:
-      dockerfile: Dockerfile
+    image: paymybuddy
     ports:
       - "8086:8086"
     depends_on:
