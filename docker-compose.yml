@@ -1,5 +1,4 @@
 version: "3.7"
-name: paymybuddyapp
 services:
   db_paymybuddydockerapp:
     container_name: dbpaymybuddy
@@ -17,7 +16,7 @@ services:
       
   paymybuddyapp:
     container_name: paymybuddyapp
-    #build: ""
+    image: paymybuddyapp
     build:
       dockerfile: Dockerfile
     ports:
