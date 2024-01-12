@@ -1,7 +1,6 @@
 version: "3.7"
 services:
-  db_paymybuddydockerapp:
-    container_name: dbpaymybuddy
+  db_paymybuddydockerapp
     image: mysql
     ports:
       - 3305:3306
@@ -15,8 +14,7 @@ services:
       replicas: 1
       
   paymybuddyapp:
-    container_name: paymybuddyapp
-    image: paymybuddy
+    image: paymybuddyapp
     ports:
       - "8086:8086"
     depends_on:
