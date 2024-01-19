@@ -1,20 +1,26 @@
-version: "3.7"
+version: "3.9"
+name: paymybuddyapp
 services:
-  db_paymybuddydockerapp
+  db_paymybuddydockerapp:
+    container_name: dbpaymybuddy
+    build:
+      context: db_docker
+      dockerfile: Dockerfile
     image: mysql
     ports:
       - 3305:3306
     environment:
-      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_ROOT_PASSWORD=password2024
       - MYSQL_DATABASE=dbpaymybuddy
     volumes:
       - paymybuddySavedDataMySQL:/var/lib/mysql
       - ./db_docker:/docker-entrypoint-initdb.d
-    deploy:
-      replicas: 1
-      
+    restart: always
+
   paymybuddyapp:
-    image: paymybuddyapp
+    container_name: paymybuddyapp
+    build:
+      dockerfile: Dockerfile
     ports:
       - "8086:8086"
     depends_on:
@@ -22,10 +28,8 @@ services:
     environment:
       SPRING_DATASOURCE_URL: 'jdbc:mysql://db_paymybuddydockerapp:3306/dbpaymybuddy?allowPublicKeyRetrieval=true&useSSL=false'
       SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_DATASOURCE_PASSWORD: password2024
     restart: always
-    deploy:
-      replicas: 1
 
 volumes:
   paymybuddySavedDataMySQL:
