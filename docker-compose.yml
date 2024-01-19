@@ -3,9 +3,6 @@ name: paymybuddyapp
 services:
   db_paymybuddydockerapp:
     container_name: dbpaymybuddy
-    build:
-      context: db_docker
-      dockerfile: Dockerfile
     image: mysql
     ports:
       - 3305:3306
@@ -14,13 +11,11 @@ services:
       - MYSQL_DATABASE=dbpaymybuddy
     volumes:
       - paymybuddySavedDataMySQL:/var/lib/mysql
-      - ./db_docker:/docker-entrypoint-initdb.d
     restart: always
 
   paymybuddyapp:
     container_name: paymybuddyapp
-    build:
-      dockerfile: Dockerfile
+    image: igorokvin/paymybuddyapp:paymybuddyapp
     ports:
       - "8086:8086"
     depends_on:
